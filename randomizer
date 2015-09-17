@@ -1,0 +1,57 @@
+import random
+
+class Room:
+  "Simple room with a description"
+  shape = "There's no description yet"
+  air_feel = "nothing"
+  connecting_doors = []
+
+  def randomize(self, type_to_randomize):
+    "Randomizes based on RandomValues.txt"
+    strings_from_text = open("RandomValues.txt","r").read().split("\n")
+    shapes = list(filter(lambda x: type_to_randomize + ": " in x, strings_from_text))
+    random_val = random.randint(0,len(shapes)-1)
+    setattr(self,type_to_randomize,shapes[random_val])
+
+  def __init__(self, description=None):
+    if description is None:
+      self.randomize("shape")
+      self.randomize("air_feel")
+    else:
+      self.shape = description
+
+class Door:
+  "Data structure providing access between rooms"
+  rooms = []
+  def connect(self,room_a,room_b):
+    "Connect two rooms to this Door object"
+    self.rooms = [room_a, room_b]
+
+  def open(self,open_from):
+    "Allows the user to open this door from a specified room"
+    if open_from in self.rooms:
+      # Return the other element
+      return list(filter(lambda x: x != open_from, self.rooms))[0]
+    return None
+
+
+
+# Let's do some testing
+door = Door()
+door.connect(Room("Entry Room"),Room("Exit Room"))
+
+entry_room = door.rooms[0]
+exit_room = door.open(entry_room)
+
+print(exit_room.shape)
+
+if door.open(exit_room) is entry_room:
+  print("We did it")
+else:
+  print("We didn't do it...")
+
+print("Checking Randomization now")
+
+random_room = Room()
+print(random_room.shape)
+print(random_room.air_feel)

@@ -1,0 +1,6 @@
+shape: 20x20
+shape: 10x10
+shape: Circle with 10" radius
+shape: 10x30
+air_feel: Cold
+air_feel: Humid
