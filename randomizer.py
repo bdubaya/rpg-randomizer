@@ -2,20 +2,26 @@ import random
 import re
 
 class Room:
-  strings_from_text = open("RandomValues.txt","r").read().split("\n")
+  parameter_types = []
 
   def randomize(self, type_to_randomize):
-    shapes = list(filter(lambda x: type_to_randomize + ": " in x, self.strings_from_text))
+    shapes = list(filter(lambda x: type_to_randomize + ": " in x, self.random_parameters))
     random_val = random.randint(0,len(shapes)-1)
     setattr(self,type_to_randomize,shapes[random_val])
 
-  def __init__(self, description=None):
-    if description is None:
-      self.randomize("shape")
-      self.randomize("air_feel")
-    else:
-      self.shape = description
+  def describe(self):
+    for params in self.parameter_types:
+      print(getattr(self,params))
 
+  def __init__(self, description=None):
+    self.random_parameters = open("RandomValues.txt","r").read().split("\n")
+    for param in self.random_parameters:
+      param_name = param.split(':')[0]
+      if param_name not in self.parameter_types:
+        self.parameter_types.append(param_name)
+
+    for params in self.parameter_types:
+      self.randomize(params)
 
 
 class Door:
@@ -47,8 +53,5 @@ class Dungeon:
 # Let's do some testing
 donj = Dungeon()
 random_room = donj.at(0,0)
-
-print(random_room.shape)
-print(random_room.air_feel)
-
 donj.add(Room())
+random_room.describe()

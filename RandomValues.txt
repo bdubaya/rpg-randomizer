@@ -1,6 +1,20 @@
 shape: 20x20
 shape: 10x10
-shape: Circle with 10" radius
 shape: 10x30
 air_feel: Cold
+air_feel: Dry
+air_feel: Musty
+air_feel: Warm
 air_feel: Humid
+floor_type: Rock
+floor_type: Marble
+floor_type: Carpeted
+floor_type: Tile
+floor_type: Wood
+floor_type: Dirt
+floor_type: Sand
+light_level: Dim
+light_level: Dark
+light_level: Moderate light
+light_level: Bright
+light_level: Daylight
