@@ -1,15 +1,11 @@
 import random
+import re
 
 class Room:
-  "Simple room with a description"
-  shape = "There's no description yet"
-  air_feel = "nothing"
-  connecting_doors = []
+  strings_from_text = open("RandomValues.txt","r").read().split("\n")
 
   def randomize(self, type_to_randomize):
-    "Randomizes based on RandomValues.txt"
-    strings_from_text = open("RandomValues.txt","r").read().split("\n")
-    shapes = list(filter(lambda x: type_to_randomize + ": " in x, strings_from_text))
+    shapes = list(filter(lambda x: type_to_randomize + ": " in x, self.strings_from_text))
     random_val = random.randint(0,len(shapes)-1)
     setattr(self,type_to_randomize,shapes[random_val])
 
@@ -20,38 +16,39 @@ class Room:
     else:
       self.shape = description
 
+
+
 class Door:
-  "Data structure providing access between rooms"
-  rooms = []
   def connect(self,room_a,room_b):
-    "Connect two rooms to this Door object"
     self.rooms = [room_a, room_b]
 
   def open(self,open_from):
-    "Allows the user to open this door from a specified room"
     if open_from in self.rooms:
-      # Return the other element
       return list(filter(lambda x: x != open_from, self.rooms))[0]
     return None
 
 
 
+# Dungeon class has the layout of all rooms
+class Dungeon:
+  layout = {frozenset([0,0]) :Room()}
+
+  def at(self, x, y):
+    return self.layout[frozenset([x,y])]
+
+  def add(self, new_room):
+    # Use Regex to find the dimensions of the room
+    m = re.split('(\d*)x(\d*)', new_room.shape)
+    print("Dimensions for room are {0} and {1}".format(m[1], m[2]))
+
+
+
+
 # Let's do some testing
-door = Door()
-door.connect(Room("Entry Room"),Room("Exit Room"))
+donj = Dungeon()
+random_room = donj.at(0,0)
 
-entry_room = door.rooms[0]
-exit_room = door.open(entry_room)
-
-print(exit_room.shape)
-
-if door.open(exit_room) is entry_room:
-  print("We did it")
-else:
-  print("We didn't do it...")
-
-print("Checking Randomization now")
-
-random_room = Room()
 print(random_room.shape)
 print(random_room.air_feel)
+
+donj.add(Room())
