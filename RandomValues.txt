@@ -6,15 +6,17 @@ air_feel: Dry
 air_feel: Musty
 air_feel: Warm
 air_feel: Humid
+air_feel: Stagnant
+air_feel: Drafty
 floor_type: Rock
 floor_type: Marble
-floor_type: Carpeted
+floor_type: Carpet
 floor_type: Tile
 floor_type: Wood
 floor_type: Dirt
 floor_type: Sand
+floor_type: Sand
 light_level: Dim
-light_level: Dark
-light_level: Moderate light
+light_level: Moderate
 light_level: Bright
 light_level: Daylight
