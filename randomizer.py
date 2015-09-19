@@ -17,9 +17,17 @@ class Room:
     def describe(self):
         for params in self.parameter_types:
             print(getattr(self,params))
+        if len(self.doorways) > 0:
+            print("There are {0} doorways".format(len(self.doorways)))
 
     def add_door(self,doorway):
-        self.doorways.append(doorway)
+        if doorway not in self.doorways:
+            self.doorways.append(doorway)
+
+    def door(self,num):
+        if len(self.doorways) < num:
+            return None
+        return self.doorways[num]
 
     def dimensions(self):
         dim = re.split('(\d*)x(\d*)', self.shape)
@@ -46,6 +54,10 @@ class Door:
             return list(filter(lambda x: x != open_from, self.rooms))[0]
         return None
 
+    def __init__(self, room_a,room_b):
+        room_a.add_door(self)
+        room_b.add_door(self)
+        self.connect(room_a,room_b)
 
 
 # Dungeon class has the layout of all rooms
@@ -72,20 +84,22 @@ class Dungeon:
                 if self.at(x,y) is None:
                     self.layout.update({loc:new_room})
 
-
-
+    def connect(self, new_room, existing_room):
+        # Only adds along x-axis at the moment...
+        doorway = Door(new_room,existing_room)
+        dimensions = [int(x / 5) for x in existing_room.dimensions()]
+        self.add(new_room,dimensions[0],0)
 
 
 
 # Let's do some testing
 donj = Dungeon()
-donj.add(Room(),0,0)
-random_room = donj.at(0,0)
-dimensions = [int(x / 5) for x in random_room.dimensions()]
-donj.add(Room(),dimensions[0],0)
+first_room = Room()
+donj.add(first_room,0,0)
+donj.connect(Room(),first_room)
 
-added_room = donj.at(dimensions[0]+1,0)
+first_room.describe()
 
-for x in range(0,dimensions[0]+1):
-    print(donj.to_key(x,0))
-    donj.at(x,0).describe()
+door = first_room.door(0)
+if door is not None:
+    door.open(first_room).describe()
