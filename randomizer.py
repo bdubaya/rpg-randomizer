@@ -1,105 +1,126 @@
-import random, re, collections
+import random, re, json
 
-class Room:
-    parameter_types = []
-    doorways = []
-
-    def randomize(self, type_to_randomize):
-        # Get entries in our RandomValues.txt document which match this type
-        type_entries = list(filter(lambda x: type_to_randomize + ": " in x, self.random_parameters))
-        # Get a random number between 0 and (len-1). This fixes an Ob1 error
-        random_val = random.randint(0,len(type_entries)-1)
-        # Take the element at the 1st index, which is the actual value (not key)
-        result = type_entries[random_val].split(':')[1]
-        # Use reflection to set the type attribute to the result
-        setattr(self,type_to_randomize,result)
+class RandomObject:
 
     def describe(self):
         for params in self.parameter_types:
+            print(params)
             print(getattr(self,params))
-        if len(self.doorways) > 0:
-            print("There are {0} doorways".format(len(self.doorways)))
+        print()
 
-    def add_door(self,doorway):
-        if doorway not in self.doorways:
-            self.doorways.append(doorway)
+    def randomize(self, type_to_randomize):
+        type_value = self.parameter_types[type_to_randomize]
 
-    def door(self,num):
-        if len(self.doorways) < num:
-            return None
-        return self.doorways[num]
+        # check to see if it's iterable
+        try:
+            type_values = type_value['values']
+        except TypeError:
+            setattr(self,type_to_randomize,type_value)
+            return
 
-    def dimensions(self):
-        dim = re.split('(\d*)x(\d*)', self.shape)
-        return (int(dim[1]), int(dim[2]))
+        # Get a random number between 0 and (len-1). This fixes an Ob1 error
+        random_val = random.randint(0,len(type_values)-1)
+        result = type_values[random_val]
+        print(result)
 
+        # Use reflection to set the type attribute to the result
+        setattr(self,type_to_randomize,result)
 
-    def __init__(self):
-        self.random_parameters = open("RandomValues.txt","r").read().split("\n")
-        for param in self.random_parameters:
-            param_name = param.split(':')[0]
-            if param_name not in self.parameter_types and param_name is not "":
-                self.parameter_types.append(param_name)
+    def read_in_random_parameters(reader):
+        reader_name = reader.__class__.__name__.lower()
+        all_random_parameters = json.load(open("RandomValues.txt",'r'))
+        reader.parameter_types = all_random_parameters[reader_name]
 
-        for params in self.parameter_types:
-            self.randomize(params)
+class Door(RandomObject):
+    parameter_types = []
 
-
-class Door:
     def connect(self,room_a,room_b):
         self.rooms = [room_a, room_b]
 
     def open(self,open_from):
         if open_from in self.rooms:
             return list(filter(lambda x: x != open_from, self.rooms))[0]
-        return None
+        return open_from
 
-    def __init__(self, room_a,room_b):
+    def __init__(self, room_a,room_b=None):
         room_a.add_door(self)
-        room_b.add_door(self)
+        if room_b is not None:
+            room_b.add_door(self)
         self.connect(room_a,room_b)
+        self.read_in_random_parameters()
+        for params in self.parameter_types:
+            self.randomize(params)
+
+
+class Room(RandomObject):
+    parameter_types = []
+
+    def describe(self):
+        super().describe()
+        if len(self.doorways) > 0:
+            print("There are {0} doors here, described as follows...".format(len(self.doorways)))
+            for door in self.doorways:
+                print("Door #{0}".format(self.doorways.index(door) + 1))
+                door.describe()
+
+    def add_door(self,doorway):
+        if doorway not in self.doorways:
+            self.doorways.append(doorway)
+
+    def get_door(self,num):
+        try:
+            return self.doorways[num]
+        except IndexError:
+            return None
+
+    def open_door(self,door):
+        if door.open(self) is None:
+            door.connect(self,Room())
+        return door.open(self)
+
+    def dimensions(self):
+        dim = re.split('(\d*)x(\d*)', self.dimension)
+        return (int(dim[1]), int(dim[2]))
+
+    def __init__(self):
+        self.doorways = []
+        self.read_in_random_parameters()
+        for params in self.parameter_types:
+            self.randomize(params)
+        for door_num in range(0, random.randint(1,4)):
+            self.add_door(Door(self))
+
 
 
 # Dungeon class has the layout of all rooms
-class Dungeon:
-    #We use strings for the keys because they are immutable and ordered
-    layout = {"" :None}
-
-    def to_key(self,x,y):
-        return "{0}x{1}".format(x,y)
-
-    def at(self, x, y):
-        try:
-            return self.layout[self.to_key(x,y)]
-        except KeyError:
-            return None
-
-    def add(self, new_room, at_x,at_y):
-        # Use Regex to find the dimensions of the room
-        dimensions = [int(dim / 5) for dim in new_room.dimensions()]
-        # attempt to add the room to the layout map. Overlapping leads may lead to a doorway
-        for x in [pre_x + at_x for pre_x in range(0,dimensions[0])]:
-            for y in [pre_y + at_y for pre_y in range(0,dimensions[1])]:
-                loc = self.to_key(x,y)
-                if self.at(x,y) is None:
-                    self.layout.update({loc:new_room})
+class Dungeon(RandomObject):
+    parameter_types = []
 
     def connect(self, new_room, existing_room):
         # Only adds along x-axis at the moment...
         doorway = Door(new_room,existing_room)
         dimensions = [int(x / 5) for x in existing_room.dimensions()]
-        self.add(new_room,dimensions[0],0)
+
+    def __init__(self):
+        self.read_in_random_parameters()
+        for params in self.parameter_types:
+            self.randomize(params)
 
 
 
 # Let's do some testing
 donj = Dungeon()
 first_room = Room()
-donj.add(first_room,0,0)
-donj.connect(Room(),first_room)
 
-first_room.describe()
+print("description of the dungeon")
+donj.describe()
 
-door = first_room.door(0)
-if door is not None:
-    door.open(first_room).describe()
+current_room = first_room
+while True:
+    print('The room you are in now is...')
+    current_room.describe()
+    door_num = input("Which door would you like to take?")
+
+    door = current_room.get_door(int(door_num) -1)
+    if door is not None:
+        current_room = current_room.open_door(door)

@@ -1,22 +1,123 @@
-shape: 20x20
-shape: 10x10
-shape: 10x30
-air_feel: Cold
-air_feel: Dry
-air_feel: Musty
-air_feel: Warm
-air_feel: Humid
-air_feel: Stagnant
-air_feel: Drafty
-floor_type: Rock
-floor_type: Marble
-floor_type: Carpet
-floor_type: Tile
-floor_type: Wood
-floor_type: Dirt
-floor_type: Sand
-floor_type: Sand
-light_level: Dim
-light_level: Moderate
-light_level: Bright
-light_level: Daylight
+{
+	"dungeon": {
+		"description": "This dungeon is a {0} of {1} make",
+		"make" : {
+			"values": [
+				"Dwarven",
+				"Elven",
+				"Ancient",
+				"Human",
+				"Human",
+				"Necromancer",
+				"Gnomish",
+				"Halfling"
+			]
+		},
+		"type": {
+			"values": [
+				"Ruins",
+				"Fortification",
+				"Outpost",
+				"Planar Gate",
+				"Death trap",
+				"Temple",
+				"Tomb"
+			]
+		}
+	},
+	"room": {
+		"dimension": [
+			"10",
+			"20",
+			"30",
+			"50"
+		],
+		"air": {
+			"description": "The air feels {0}",
+			"values": [
+				"dold",
+				"dry",
+				"musty",
+				"dusty",
+				"warm",
+				"humid",
+				"stagnant",
+				"hot",
+				"drafty"
+			]
+		},
+		"floor": {
+			"description": "The floor is is {0}",
+			"values": [
+				"stone",
+				"sand",
+				"marble",
+				"carpeted",
+				"tiled",
+				"wooden",
+				"dirt"
+			]
+		},
+		"lighting": {
+			"description": "The room is {0}",
+			"values": [
+				"completely dark",
+				"mostly dark with some ambient lighting from nearby rooms",
+				"dimly lit",
+				"dimly illuminated by a few dwindling embers from a fire",
+				"dimly lit by a candle",
+				"moderately lit",
+				"moderately lit by a few candles in the room",
+				"moderately illuminated by a torch",
+				"moderately lit by ambient light pouring in from an open door",
+				"brightly lit"
+			]
+		}
+	},
+	"door": {
+		"description": "There is {0} on the {1} side of the room.",
+		"type": {
+			"description": "",
+			"values": [
+				"a hallway",
+				"an open doorway",
+				"a wooden door",
+				"a stone door",
+				"a steel door"
+			]
+		},
+		"location": {
+			"description": "",
+			"values": [
+				"North",
+				"East",
+				"South",
+				"West"
+			]
+		},
+		"status": {
+			"description": "It is {0}.",
+			"values": [
+				"broken off of its hinges",
+				"hangs slightly ajar",
+				"standing open",
+				"closed",
+				"closed and unlocked",
+				"closed and locked",
+				"closed and barred from the other side"
+			]
+		},
+		"decoration": {
+			"description": "",
+			"values": [
+				"",
+				"On the door, there is some runic writing.",
+				"Scratches from a large creature maw the door.",
+				"The door has burn marks from some massive heat source.",
+				"There is blood dripping off of the door proper.",
+				"There are glowing runes on the door.",
+				"There is an ornate decoration on the door."
+			]
+		}
+	}
+}
