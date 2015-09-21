@@ -3,39 +3,34 @@ import random, re, json
 class RandomObject:
 
     def describe(self):
-        for params in self.parameter_types:
-            print(params)
-            print(getattr(self,params))
+        # Use the description value in the json, then reflect it into a formatter
+        desc_raw = getattr(self,'description')['value']
+        desc_values = list(getattr(self,x) for x in getattr(self,'description')['keys'])
+        print(desc_raw.format(*desc_values))
         print()
 
     def randomize(self, type_to_randomize):
         type_value = self.parameter_types[type_to_randomize]
-
-        # check to see if it's iterable
-        try:
-            type_values = type_value['values']
-        except TypeError:
-            setattr(self,type_to_randomize,type_value)
-            return
-
         # Get a random number between 0 and (len-1). This fixes an Ob1 error
-        random_val = random.randint(0,len(type_values)-1)
-        result = type_values[random_val]
-        print(result)
-
+        random_val = random.randint(0,len(type_value)-1)
+        result = type_value[random_val]
         # Use reflection to set the type attribute to the result
         setattr(self,type_to_randomize,result)
 
     def read_in_random_parameters(reader):
         reader_name = reader.__class__.__name__.lower()
         all_random_parameters = json.load(open("RandomValues.txt",'r'))
-        reader.parameter_types = all_random_parameters[reader_name]
+        reader.parameter_types = {k:v for (k,v) in all_random_parameters[reader_name].items() if not 'description' in k}
+        reader.description = all_random_parameters[reader_name]['description']
 
 class Door(RandomObject):
     parameter_types = []
 
     def connect(self,room_a,room_b):
         self.rooms = [room_a, room_b]
+
+    def describe(self):
+        print('nope')
 
     def open(self,open_from):
         if open_from in self.rooms:
