@@ -4,10 +4,9 @@ class RandomObject:
 
     def describe(self):
         # Use the description value in the json, then reflect it into a formatter
-        desc_raw = getattr(self,'description')['value']
-        desc_values = list(getattr(self,x) for x in getattr(self,'description')['keys'])
+        desc_raw = getattr(self,'description')
+        desc_values = list(getattr(self,x) for x in getattr(self,'description_keys'))
         print(desc_raw.format(*desc_values))
-        print()
 
     def randomize(self, type_to_randomize):
         type_value = self.parameter_types[type_to_randomize]
@@ -20,17 +19,14 @@ class RandomObject:
     def read_in_random_parameters(reader):
         reader_name = reader.__class__.__name__.lower()
         all_random_parameters = json.load(open("RandomValues.txt",'r'))
-        reader.parameter_types = {k:v for (k,v) in all_random_parameters[reader_name].items() if not 'description' in k}
-        reader.description = all_random_parameters[reader_name]['description']
+        reader.parameter_types = {k:v for (k,v) in all_random_parameters[reader_name].items() if not 'description_keys' in k}
+        reader.description_keys = all_random_parameters[reader_name]['description_keys']
 
 class Door(RandomObject):
     parameter_types = []
 
     def connect(self,room_a,room_b):
         self.rooms = [room_a, room_b]
-
-    def describe(self):
-        print('nope')
 
     def open(self,open_from):
         if open_from in self.rooms:
@@ -53,9 +49,8 @@ class Room(RandomObject):
     def describe(self):
         super().describe()
         if len(self.doorways) > 0:
-            print("There are {0} doors here, described as follows...".format(len(self.doorways)))
+            print("There are {0} doors here.".format(len(self.doorways)))
             for door in self.doorways:
-                print("Door #{0}".format(self.doorways.index(door) + 1))
                 door.describe()
 
     def add_door(self,doorway):
@@ -107,14 +102,12 @@ class Dungeon(RandomObject):
 donj = Dungeon()
 first_room = Room()
 
-print("description of the dungeon")
 donj.describe()
-
 current_room = first_room
 while True:
-    print('The room you are in now is...')
+    print()
     current_room.describe()
-    door_num = input("Which door would you like to take?")
+    door_num = input("\nWhich door would you like to take?")
 
     door = current_room.get_door(int(door_num) -1)
     if door is not None:

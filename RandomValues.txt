@@ -1,12 +1,13 @@
 {
 	"dungeon": {
-		"description": {
-			"value": "This dungeon is a {0} of {1} make",
-			"keys": [
-				"type",
-				"make"
-			]
-		},
+		"description": [
+			"This dungeon is a {0} of {1} make",
+			"This is a {1} {0}"
+		],
+		"description_keys": [
+			"type",
+			"make"
+		],
 		"make" : [
 			"Dwarven",
 			"Elven",
@@ -21,22 +22,28 @@
 			"ruins",
 			"fortification",
 			"outpost",
-			"planar Gate",
+			"planar date",
 			"death trap",
 			"temple",
-			"tomb"
+			"tomb",
+			"labyrinth",
+			"lair",
+			"mine",
+			"stronghold"
 		]
 	},
 	"room": {
-		"description": {
-			"value": "The walls of this room are {0} and the floor is {1}. The air feels {2} and it is {3}.",
-			"keys": [
-				"wall",
-				"floor",
-				"air",
-				"lighting"
-			]
-		},
+		"description": [
+			"The walls of this room are {0} and the floor is {1}. The air feels {2} and it is {3}. {4}",
+			"The floor is {1} and the walls are {0}. The room is {3} and the air feels {2}. {4}"
+		],
+		"description_keys": [
+			"wall",
+			"floor",
+			"air",
+			"lighting",
+			"decoration"
+		],
 		"dimension": [
 			"10",
 			"20",
@@ -80,19 +87,30 @@
 			"moderately illuminated by a torch",
 			"moderately lit by ambient light pouring in from an open door",
 			"brightly lit"
+		],
+		"decoration": [
+			"",
+			"",
+			"Wish I had something to decorate this with.... "
 		]
 	},
 	"door": {
-		"description": {
-			"keys": "This is programmatically determined."
-		},
+		"description": [
+			"A hallway lies to the {1}.",
+			"There is a hallway on the {1} wall.",
+			"A {0} to the {1} is {2}. {3}",
+			"To the {1}, there is a {0}. {3}The {0} is currently {2}. "
+		],
+		"description_keys": [
+			"type",
+			"location",
+			"status",
+			"decoration"
+		],
 		"type": [
-			"a hallway",
-			"a hallway",
-			"an open doorway",
-			"a wooden door",
-			"a stone door",
-			"a steel door"
+			"wooden door",
+			"stone door",
+			"steel door"
 		],
 		"location": [
 			"North",
@@ -102,7 +120,7 @@
 		],
 		"status": [
 			"broken off of its hinges",
-			"hangs slightly ajar",
+			"hanging slightly ajar",
 			"standing open",
 			"closed",
 			"closed and unlocked",
@@ -111,12 +129,12 @@
 		],
 		"decoration": [
 			"",
-			"On the door, there is some runic writing.",
-			"Scratches from a large creature maw the door.",
-			"The door has burn marks from some massive heat source.",
-			"There is blood dripping off of the door proper.",
-			"There are glowing runes on the door.",
-			"There is an ornate decoration on the door."
+			"On the door, there is some runic writing. ",
+			"Scratches from a large creature maw the door. ",
+			"The door has burn marks from some massive heat source. ",
+			"There is blood dripping off of the door proper. ",
+			"There are glowing runes on the door. ",
+			"There is an ornate decoration on the door. "
 		]
 	}
 }
