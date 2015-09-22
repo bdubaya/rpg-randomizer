@@ -102,7 +102,7 @@ class Room(RandomObject):
     def __init__(self):
         super().__init__()
         self.doorways = []
-        for door_num in range(0, random.randint(1,1)):
+        for door_num in range(0, random.randint(1,3)):
             self.add_door(Door(self))
 
 # Dungeon is a blank object used for flavor at the moment.

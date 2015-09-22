@@ -26,15 +26,15 @@
 		"type": [
 			"ruins",
 			"fortification",
+			"stronghold",
 			"outpost",
-			"planar date",
-			"death trap",
 			"temple",
 			"tomb",
 			"labyrinth",
 			"lair",
 			"mine",
-			"stronghold"
+			"planar gate",
+			"death trap"
 		],
 		"age": [
 			"modern",
@@ -47,11 +47,15 @@
 	"room": {
 		"description": [
 			"The walls of this room are {1} and the floor is {2}. The air feels {3} and it is {4}. {0}",
-			"The floor is {2} and the walls are {1}. The room is {4} and the air feels {3}. {0}"
+			"The floor is {2} and the walls are {1}. The room is {4} and the air feels {3}. {0}",
+			"This room is {4}. {0}The walls are {1} with a {2} floor. The air is {3}."
 		],
 		"description_mutator": [
 			"",
-			"There is a table here with {5} on it."
+			"There is a table here with {5} on it. ",
+			"There is an ornate bookcase. Upon investigation, the only book of interest you find is {8}. ",
+			"Strangely enough, you see {6} in the room. ",
+			"You can smell {7}, but see no source. "
 		],
 		"description_keys": [
 			"description_mutator",
@@ -59,7 +63,10 @@
 			"floor",
 			"air",
 			"lighting",
-			"decoration"
+			"decoration",
+			"anomaly",
+			"odor",
+			"interesting_book"
 		],
 		"wall": [
 			"stone",
@@ -105,7 +112,26 @@
 			"a spell book",
 			"a severed head",
 			"various utensils",
-			"a candleabra"
+			"a candelabra",
+			"a ceremonial dagger",
+			"a bag of gold pieces"
+		],
+		"anomaly": [
+			"a sphere of distorted oddly-lensed light",
+			"a translucent penguin"
+		],
+		"odor": [
+			"ozone",
+			"chlorine",
+			"sulfur",
+			"smoke",
+			"lavender",
+			"rotting flesh"
+		],
+		"interesting_book": [
+			"the Grimoire of L.S. Verdeburg",
+			"a Manual on the Creation of Golems",
+			"a treatise on the applications of magic in modern warfare"
 		]
 	},
 	"door": {
@@ -113,7 +139,7 @@
 			"A hallway lies to the {2}.",
 			"There is a hallway on the {2} wall.",
 			"A {1} to the {2} is {3}. {4}",
-			"To the {2}, there is a {1}. {4}The {1} is currently {3}. "
+			"To the {2}, there is a {1}. {4}The {1} is currently {3}."
 		],
 		"description_keys": [
 			"description_mutator",
