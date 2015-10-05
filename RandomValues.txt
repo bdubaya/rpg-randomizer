@@ -53,7 +53,8 @@
 		"description_mutator": [
 			"",
 			"There is a table here with {5} on it. ",
-			"There is an ornate bookcase. Upon investigation, the only book of interest you find is {8}. ",
+			"There is an ornate bookcase; however, there are no books which stand out to you. ",
+			"There is an ornate bookcase; upon investigation, the only book of interest you find is {8}. ",
 			"Strangely enough, you see {6} in the room. ",
 			"You can smell {7}, but see no source. "
 		],
@@ -101,7 +102,7 @@
 			"dimly illuminated by a few dwindling embers from a fire",
 			"dimly lit by a candle",
 			"moderately lit",
-			"moderately lit by a few candles in the room",
+			"moderately lit by a few candles",
 			"moderately illuminated by a torch",
 			"moderately lit by ambient light pouring in from an open door",
 			"brightly lit"
@@ -174,6 +175,30 @@
 			"There is blood dripping off of the door proper. ",
 			"There are glowing runes on the door. ",
 			"There is an ornate decoration on the door. "
+		]
+	},
+	"npc": {
+		"description": [
+			"{1} NPC."
+		],
+		"description_keys": [
+			"description_mutator",
+			"race"
+		],
+		"description_mutator": [
+			"",
+			"NEED MUTATION"
+		],
+		"race": [
+			"Human",
+			"Elf",
+			"Dwarf",
+			"Halfling",
+			"Gnome",
+			"Half elf",
+			"Half orc",
+			"Tiefling",
+			"Dragonborn"
 		]
 	},
 	"direction": {
