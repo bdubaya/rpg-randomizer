@@ -1,4 +1,12 @@
 import random, json, math
+from rnn.NameRnn import NameRnn
+
+# Globally defined variables are bad but this is something I am doing for performance
+
+print('Loading Neural Net Data...')
+neuralnet = NameRnn()
+npc_names = neuralnet.get(5)
+print('Done!\n')
 
 class RandomObject(object):
 
@@ -124,13 +132,23 @@ class Room(RandomObject):
         self.doorways = []
         for door_num in range(0, random.randint(1,3)):
             self.add_door(Door(self))
+        self.createNpcs()
+
+    def createNpcs(self):
         self.npcs = []
         number_npcs = RandomObject.sqrt_random(0,4,1000)
-        for npcs in range(0,number_npcs):
-            self.npcs.append(Npc())
+        for x in range(0,number_npcs):
+            self.npcs.append(Npc(npc_names.pop()))
 
 class Npc(RandomObject):
     parameter_types = []
+
+    def __init__(self, name):
+        super().__init__()
+        self.name = name
+
+    def describe(self,from_perspective=None):
+        return "{0} named {1}".format(super().describe(), self.name)
 
 # Dungeon is a blank object used for flavor at the moment.
 class Dungeon(RandomObject):
