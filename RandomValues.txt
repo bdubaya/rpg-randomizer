@@ -179,15 +179,21 @@
 	},
 	"npc": {
 		"description": [
-			"{1}"
+			"{1} {2} wearing {5}{0}"
 		],
 		"description_keys": [
 			"description_mutator",
-			"race"
+			"race",
+			"playable_class",
+			"melee_weapon",
+			"ranged_weapon",
+			"armor"
 		],
 		"description_mutator": [
-			"",
-			"NEED MUTATION"
+			" with {3}.",
+			" with {3} and {4}.",
+			" with {4}.",
+			" with no weapons"
 		],
 		"race": [
 			"Human",
@@ -198,7 +204,53 @@
 			"Half elf",
 			"Half orc",
 			"Tiefling",
-			"Dragonborn"
+			"Dragonborn",
+			"Genasi",
+			"Minotaur",
+			"Titan"
+		],
+		"playable_class": [
+			"Barbarian",
+			"Bard",
+			"Cleric",
+			"Druid",
+			"Fighter",
+			"Monk",
+			"Paladin",
+			"Ranger",
+			"Rogue",
+			"Sorcerer",
+			"Warlock",
+			"Wizard"
+		],
+		"melee_weapon": [
+			"a dagger",
+			"a shortsword",
+			"a longsword",
+			"a greatsword",
+			"an axe",
+			"a warhammer",
+			"a whip",
+			"a mace",
+			"a pike",
+			"a spear",
+			"a javelin"
+		],
+		"ranged_weapon": [
+			"a short bow",
+			"a longbow",
+			"a crossbow",
+			"a heavy crossbow"
+		],
+		"armor": [
+			"no armor",
+			"robes",
+			"leather armor",
+			"studded leather armor",
+			"chainmail",
+			"half plate",
+			"full plate",
+			"scale armor"
 		]
 	},
 	"direction": {
