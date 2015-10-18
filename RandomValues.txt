@@ -179,21 +179,28 @@
 	},
 	"npc": {
 		"description": [
-			"{1} {2} wearing {5}{0}"
+			"\n{1} {2}\n-----------\nWeapons: {0}\nArmor: {5}"
 		],
 		"description_keys": [
-			"description_mutator",
+			"weapons_mutator",
 			"race",
 			"playable_class",
 			"melee_weapon",
 			"ranged_weapon",
 			"armor"
 		],
-		"description_mutator": [
-			" with {3}.",
-			" with {3} and {4}.",
-			" with {4}.",
-			" with no weapons"
+		"weapons_mutator": [
+			"None",
+			"{3}",
+			"{3}",
+			"{3}",
+			"{3}",
+			"{3}",
+			"{3}, {4}",
+			"{3}, {4}",
+			"{4}",
+			"{4}",
+			"{4}"
 		],
 		"race": [
 			"Human",
@@ -224,23 +231,23 @@
 			"Wizard"
 		],
 		"melee_weapon": [
-			"a dagger",
-			"a shortsword",
-			"a longsword",
-			"a greatsword",
-			"an axe",
-			"a warhammer",
-			"a whip",
-			"a mace",
-			"a pike",
-			"a spear",
-			"a javelin"
+			"Dagger",
+			"Shortsword",
+			"Longsword",
+			"Greatsword",
+			"Axe",
+			"Warhammer",
+			"Whip",
+			"Mace",
+			"Pike",
+			"Spear",
+			"Javelin"
 		],
 		"ranged_weapon": [
-			"a short bow",
-			"a longbow",
-			"a crossbow",
-			"a heavy crossbow"
+			"Short bow",
+			"Longbow",
+			"Crossbow",
+			"Heavy crossbow"
 		],
 		"armor": [
 			"no armor",
