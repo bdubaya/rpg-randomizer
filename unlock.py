@@ -1,6 +1,7 @@
 '''Used to unlock sensitive information after pulling from github'''
 
 from KeyLoader import KeyLoader
+from collections import OrderedDict
 import os, json
 
 keyloader = KeyLoader()
@@ -22,4 +23,5 @@ for f in locked_files:
 
     unlocked_data = keyloader.unlockWithPassword(password, full_data)
     with open('data/unlocked/' + f,'w') as f_out:
-    	json.dump(unlocked_data, f_out)
+        ordered = OrderedDict(sorted(unlocked_data.items(), key=lambda t: t[0]))
+        json.dump(ordered, f_out)
