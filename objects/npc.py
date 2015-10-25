@@ -7,7 +7,7 @@ class Npc(RandomObject):
     parameter_types = []
 
     def __init__(self):
-        super().__init__("NpcRandomValues.txt")
+        super().__init__("data/unlocked/NpcRandomValues.json")
         self.strength = 10
         self.dexterity = 10
         self.constitution = 10

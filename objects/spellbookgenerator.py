@@ -6,7 +6,7 @@ class SpellBookGenerator(object):
         '''
         Load the spell list JSON
         '''
-        self.spells = json.load(open('5e-spells/spells.json','r'))
+        self.spells = json.load(open('data/unlocked/spells.json','r'))
 
     def get(self, school_preference, spells_per_level):
         '''
