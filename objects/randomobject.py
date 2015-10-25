@@ -21,8 +21,8 @@ class RandomObject(object):
         setattr(self,type_to_randomize,result)
 
     # Read the Json and add the types and keys to the RandomObject appropriately
-    def read_in_random_parameters(reader):
-        all_random_parameters = json.load(open("RandomValues.txt",'r'))
+    def read_in_random_parameters(reader, filename):
+        all_random_parameters = json.load(open(filename,'r'))
         reader_name = reader.__class__.__name__.lower()
         reader.parameter_types = {k:v for (k,v) in all_random_parameters[reader_name].items() if not 'description_keys' in k}
         reader.description_keys = all_random_parameters[reader_name]['description_keys']
@@ -32,7 +32,7 @@ class RandomObject(object):
         random_value = round(math.sqrt(random.randint(1,scale)))
         return int(max(random_value - (absolute_max-maximum), minimum))
 
-    def __init__(self):
-        self.read_in_random_parameters()
+    def __init__(self, filename="RandomValues.txt"):
+        self.read_in_random_parameters(filename)
         for params in self.parameter_types:
             self.randomize(params)
