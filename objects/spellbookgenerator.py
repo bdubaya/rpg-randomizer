@@ -30,7 +30,7 @@ class SpellBookGenerator(object):
         spell_list = self.get(school_preference,levels)
         out = ""
         for i in range(0,len(spell_list)):
-            spells_for_level = ', '.join([spell for spell in spell_list[i]])
+            spells_for_level = ', '.join(sorted([spell for spell in spell_list[i]]))
             out += 'Level {0}:  {1}\n'.format(i,spells_for_level)
         return out
 

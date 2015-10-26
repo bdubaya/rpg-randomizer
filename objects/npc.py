@@ -14,6 +14,7 @@ class Npc(RandomObject):
         self.intelligence = 10
         self.wisdom = 10
         self.charisma = 10
+        self.level = random.randint(0, 20) + 1
         self.spell_book = ""
 
     def describe(self,from_perspective=None):
