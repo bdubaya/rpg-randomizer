@@ -34,6 +34,15 @@ class SpellBookGenerator(object):
             out += 'Level {0}:  {1}\n'.format(i,spells_for_level)
         return out
 
+    def filterByClass(self, playable_class, spells=None):
+        if spells is None:
+            spells = self.spells
+        spells_for_classes = [spell for spell in spells if 'classes' in spells[spell]]
+        universal_spells = [spell for spell in spells if 'classes' not in spells[spell]]
+        class_spells = [s for s in spells_for_classes if playable_class in spells[s]]
+        return {spell:spells[spell] for spell in (class_spells + universal_spells)}
+
+
     def filterByLevel(self, level, spells=None):
         if spells is None:
             spells = self.spells
