@@ -7,7 +7,7 @@ class Npc(RandomObject):
     parameter_types = []
 
     def __init__(self):
-        super().__init__("data/unlocked/NpcRandomValues.json")
+        super().__init__("data/unlocked/character.json")
         self.strength = 10
         self.dexterity = 10
         self.constitution = 10
@@ -16,10 +16,11 @@ class Npc(RandomObject):
         self.charisma = 10
         self.level = random.randint(0, 20) + 1
         self.spell_book = ""
+        self.sbg = SpellBookGenerator()
 
     def describe(self,from_perspective=None):
         description = '\n'
-        if 'Wizard' in self.playable_class:
+        if self.sbg.hasSpells(self.playable_class):
             if self.spell_book is "":
                 self.spell_book = self.makeSpellBook()
             description += self.spell_book
@@ -29,9 +30,10 @@ class Npc(RandomObject):
     def makeSpellBook(self):
         spell_preferences = ['Abjuration','Conjuration','Divination','Evocation','Illusion','Necromancy','Transmutation']
         shuffle(spell_preferences)
-        self.setMagicSpecialty(spell_preferences[0])
-        sbg = SpellBookGenerator()
-        return sbg.createList(spell_preferences,[5+random.randint(0,2),4+random.randint(0,3),3+random.randint(0,3),2+random.randint(0,3),1+random.randint(0,3),random.randint(0,3)])
+        if self.playable_class == 'Wizard':
+            self.setMagicSpecialty(spell_preferences[0])
+        num_spells = [5+random.randint(0,2),4+random.randint(0,3),3+random.randint(0,3),2+random.randint(0,3),1+random.randint(0,3),random.randint(0,3)]
+        return self.sbg.createList(self.playable_class, spell_preferences, num_spells)
 
     def setMagicSpecialty(self, type):
         typename = ''

@@ -8,14 +8,21 @@ class SpellBookGenerator(object):
         '''
         self.spells = json.load(open('data/unlocked/spells.json','r'))
 
-    def get(self, school_preference, spells_per_level):
+    def hasSpells(self,playable_class):
+        # When I'm done with the spell list the following line will be removed
+        has_classes_specified = [spell for spell in self.spells if 'classes' in self.spells[spell]]
+        return len([s for s in has_classes_specified if playable_class in self.spells[s]['classes']]) > 0
+
+
+    def get(self, playable_class, school_preference, spells_per_level):
         '''
         Create a random spell list
         '''
         full_spell_list = [[] for na in range(0,len(spells_per_level))]
         for school_pref in school_preference:
             for lvl in range(0,len(spells_per_level)):
-                level = self.filterByLevel(lvl)
+                c_spells = self.filterByClass(playable_class)
+                level = self.filterByLevel(lvl, c_spells)
                 school = self.filterBySchool(school_pref,level)
                 shuffled_spell_list = [spell for spell in school]
                 if shuffled_spell_list is None:
@@ -26,8 +33,8 @@ class SpellBookGenerator(object):
                         full_spell_list[lvl].append(spell)
         return full_spell_list
 
-    def createList(self, school_preference, levels):
-        spell_list = self.get(school_preference,levels)
+    def createList(self, playable_class, chool_preferences, levels):
+        spell_list = self.get(playable_class, chool_preferences,levels)
         out = ""
         for i in range(0,len(spell_list)):
             spells_for_level = ', '.join(sorted([spell for spell in spell_list[i]]))
@@ -37,11 +44,11 @@ class SpellBookGenerator(object):
     def filterByClass(self, playable_class, spells=None):
         if spells is None:
             spells = self.spells
-        spells_for_classes = [spell for spell in spells if 'classes' in spells[spell]]
-        universal_spells = [spell for spell in spells if 'classes' not in spells[spell]]
-        class_spells = [s for s in spells_for_classes if playable_class in spells[s]]
-        return {spell:spells[spell] for spell in (class_spells + universal_spells)}
 
+        # When I'm done with the spell list the following line will be removed
+        has_classes_specified = [spell for spell in spells if 'classes' in spells[spell]]
+        class_spells = [s for s in has_classes_specified if playable_class in spells[s]['classes']]
+        return {spell:spells[spell] for spell in class_spells}
 
     def filterByLevel(self, level, spells=None):
         if spells is None:

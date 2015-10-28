@@ -32,7 +32,7 @@ class RandomObject(object):
         random_value = round(math.sqrt(random.randint(1,scale)))
         return int(max(random_value - (absolute_max-maximum), minimum))
 
-    def __init__(self, filename="RandomValues.txt"):
+    def __init__(self, filename="data/unlocked/dungeon.json"):
         self.read_in_random_parameters(filename)
         for params in self.parameter_types:
             self.randomize(params)
