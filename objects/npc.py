@@ -30,10 +30,11 @@ class Npc(RandomObject):
     def makeSpellBook(self):
         spell_preferences = ['Abjuration','Conjuration','Divination','Evocation','Illusion','Necromancy','Transmutation']
         shuffle(spell_preferences)
+        num_spells = [5+random.randint(0,2),4+random.randint(0,3),3+random.randint(0,3),2+random.randint(0,3),1+random.randint(0,3),random.randint(0,3)]
+        spell_list = self.sbg.createList(self.playable_class, spell_preferences, num_spells)
         if self.playable_class == 'Wizard':
             self.setMagicSpecialty(spell_preferences[0])
-        num_spells = [5+random.randint(0,2),4+random.randint(0,3),3+random.randint(0,3),2+random.randint(0,3),1+random.randint(0,3),random.randint(0,3)]
-        return self.sbg.createList(self.playable_class, spell_preferences, num_spells)
+        return spell_list
 
     def setMagicSpecialty(self, type):
         typename = ''
