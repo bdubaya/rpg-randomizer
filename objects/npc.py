@@ -28,7 +28,7 @@ class Npc(RandomObject):
         return description
 
     def makeSpellBook(self):
-        spell_preferences = ['Abjuration','Conjuration','Divination','Evocation','Illusion','Necromancy','Transmutation']
+        spell_preferences = ['Abjuration','Conjuration','Divination','Enchantment','Evocation','Illusion','Necromancy','Transmutation']
         shuffle(spell_preferences)
         num_spells = [5+random.randint(0,2),4+random.randint(0,3),3+random.randint(0,3),2+random.randint(0,3),1+random.randint(0,3),random.randint(0,3)]
         spell_list = self.sbg.createList(self.playable_class, spell_preferences, num_spells)
@@ -50,6 +50,8 @@ class Npc(RandomObject):
             typename = 'Illusionist'
         elif type == 'Necromancy':
             typename = 'Necromancer'
+        elif type == 'Enchantment':
+            typename = 'Enchanter'
         else:
             typename = 'Transmuter'
 
