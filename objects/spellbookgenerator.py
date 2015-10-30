@@ -37,8 +37,10 @@ class SpellBookGenerator(object):
         spell_list = self.get(playable_class, chool_preferences,levels)
         out = ""
         for i in range(0,len(spell_list)):
-            spells_for_level = ', '.join(sorted([spell for spell in spell_list[i]]))
-            out += 'Level {0}:  {1}\n'.format(i,spells_for_level)
+            spells = [spell for spell in spell_list[i]]
+            if len(spells) > 0:
+                spells_for_level = ', '.join(sorted(spells))
+                out += 'Level {0}:  {1}\n'.format(i,spells_for_level)
         return out
 
     def filterByClass(self, playable_class, spells=None):
