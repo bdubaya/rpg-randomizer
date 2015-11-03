@@ -1,6 +1,6 @@
-from objects.randomobject import RandomObject
-from objects.door import Door
-from objects.npc import Npc
+from objects.RandomObject import RandomObject
+from objects.Door import Door
+from objects.Npc import Npc
 import random
 
 class Room(RandomObject):

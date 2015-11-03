@@ -1,4 +1,4 @@
-from objects.randomobject import RandomObject
+from objects.RandomObject import RandomObject
 import math
 
 class Direction(RandomObject):

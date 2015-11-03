@@ -21,7 +21,7 @@ for f in locked_files:
     with open('data/locked/' + f,'rb') as infile:
         full_data = infile.read()
 
-    unlocked_data = keyloader.unlockWithPassword(password, full_data)
+    unlocked_data = keyloader.unlock_with_password(password, full_data)
     with open('data/unlocked/' + f,'w') as f_out:
         ordered = OrderedDict(sorted(unlocked_data.items(), key=lambda t: t[0]))
         json.dump(ordered, f_out)

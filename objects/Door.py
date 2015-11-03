@@ -1,5 +1,5 @@
-from objects.randomobject import RandomObject
-from objects.direction import Direction
+from objects.RandomObject import RandomObject
+from objects.Direction import Direction
 #from objects import Room, RandomObject, Direction
 
 class Door(RandomObject):

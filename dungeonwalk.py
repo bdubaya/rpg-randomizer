@@ -1,5 +1,5 @@
-from objects.room import Room
-from objects.dungeon import Dungeon
+from objects.Room import Room
+from objects.Dungeon import Dungeon
 
 # Let's do some testing
 donj = Dungeon()

@@ -21,9 +21,9 @@ class SpellBookGenerator(object):
         full_spell_list = [[] for na in range(0,len(spells_per_level))]
         for school_pref in school_preference:
             for lvl in range(0,len(spells_per_level)):
-                c_spells = self.filterByClass(playable_class)
-                level = self.filterByLevel(lvl, c_spells)
-                school = self.filterBySchool(school_pref,level)
+                c_spells = self.filter_by_class(playable_class)
+                level = self.filter_by_level(lvl, c_spells)
+                school = self.filter_by_school(school_pref,level)
                 shuffled_spell_list = [spell for spell in school]
                 if shuffled_spell_list is None:
                     continue
@@ -33,7 +33,7 @@ class SpellBookGenerator(object):
                         full_spell_list[lvl].append(spell)
         return full_spell_list
 
-    def createList(self, playable_class, chool_preferences, levels):
+    def create_list(self, playable_class, chool_preferences, levels):
         spell_list = self.get(playable_class, chool_preferences,levels)
         out = ""
         for i in range(0,len(spell_list)):
@@ -46,7 +46,7 @@ class SpellBookGenerator(object):
             out += 'Level {0}:  {1}\n'.format(i,spells_for_level)
         return out
 
-    def filterByClass(self, playable_class, spells=None):
+    def filter_by_class(self, playable_class, spells=None):
         if spells is None:
             spells = self.spells
 
@@ -55,13 +55,13 @@ class SpellBookGenerator(object):
         class_spells = [s for s in has_classes_specified if playable_class in spells[s]['classes']]
         return {spell:spells[spell] for spell in class_spells}
 
-    def filterByLevel(self, level, spells=None):
+    def filter_by_level(self, level, spells=None):
         if spells is None:
             spells = self.spells
         spellnames = [spell for spell in spells if spells[spell]['level'] == level]
         return {spell:spells[spell] for spell in spellnames}
 
-    def filterBySchool(self, school, spells=None):
+    def filter_by_school(self, school, spells=None):
         if spells is None:
             spells = self.spells
         spellnames =  [spell for spell in spells if spells[spell]['school'] == school]

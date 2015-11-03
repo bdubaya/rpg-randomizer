@@ -1,4 +1,4 @@
-from objects.npc import Npc
+from objects.Npc import Npc
 import sys
 
 class NpcRandomizer(object):
@@ -9,10 +9,15 @@ class NpcRandomizer(object):
         return [Npc(self.desired_class) for i in range(0,num)]
 
 desired_class = ''
-if len(sys.argv) > 1:
-    desired_class = sys.argv[1]
+number_to_generate = 1
 
-# Gimme 5
+for x in range(1,len(sys.argv)):
+    try:
+        number_to_generate = int(sys.argv[x])
+    except:
+        desired_class = sys.argv[x]
+
+# Create and describe a certain number
 gen = NpcRandomizer(desired_class)
-for npc in gen.get(5):
+for npc in gen.get(number_to_generate):
     print(npc.describe())
