@@ -1,5 +1,6 @@
 import json
 from random import shuffle
+import numpy as np
 
 class SpellBookGenerator(object):
     def __init__(self):
@@ -13,28 +14,32 @@ class SpellBookGenerator(object):
         has_classes_specified = [spell for spell in self.spells if 'classes' in self.spells[spell]]
         return len([s for s in has_classes_specified if playable_class in self.spells[s]['classes']]) > 0
 
-
-    def get(self, playable_class, school_preference, spells_per_level):
+    def generate_spellbook(self, playable_class, school_preferences, spells_known_per_level):
         '''
-        Create a random spell list
+        Create a random spell list based on class, school preferences (e.g. a
+        spellcaster who prefers Necromancy, then Evocation, then abjuration,
+        etc.), and the number of spells known per spell level
         '''
-        full_spell_list = [[] for na in range(0,len(spells_per_level))]
-        for school_pref in school_preference:
-            for lvl in range(0,len(spells_per_level)):
-                c_spells = self.filter_by_class(playable_class)
-                level = self.filter_by_level(lvl, c_spells)
-                school = self.filter_by_school(school_pref,level)
-                shuffled_spell_list = [spell for spell in school]
-                if shuffled_spell_list is None:
-                    continue
-                shuffle(shuffled_spell_list)
-                for spell in shuffled_spell_list:
-                    if len(full_spell_list[lvl]) < spells_per_level[lvl]:
-                        full_spell_list[lvl].append(spell)
+        full_spell_list = [[] for x in range(0, len(spells_known_per_level))]
+        for school_pref in school_preferences:
+            for level in range(0, len(spells_known_per_level)):
+                spells_at_level = self.get(playable_class, level, school_pref)
+                for spell in spells_at_level:
+                    if len(full_spell_list[level]) < spells_known_per_level[level]:
+                        full_spell_list[level].append(spell)
         return full_spell_list
 
-    def create_list(self, playable_class, chool_preferences, levels):
-        spell_list = self.get(playable_class, chool_preferences,levels)
+    def get(self, playable_class, lvl, school):
+        '''Filter out all of the spells, then choose those at random'''
+        spells_for_class = self.filter_by_class(playable_class)
+        spells_for_level = self.filter_by('level', lvl, spells_for_class)
+        spells_for_school= self.filter_by('school', school, spells_for_level)
+        basic_spells = [spell for spell in spells_for_school]
+        shuffle(basic_spells)
+        return basic_spells
+
+    def create_list(self, playable_class, school_preferences, levels):
+        spell_list = self.generate_spellbook(playable_class, school_preferences,levels)
         out = ""
         for i in range(0,len(spell_list)):
             spells = [spell for spell in spell_list[i]]
@@ -55,17 +60,11 @@ class SpellBookGenerator(object):
         class_spells = [s for s in has_classes_specified if playable_class in spells[s]['classes']]
         return {spell:spells[spell] for spell in class_spells}
 
-    def filter_by_level(self, level, spells=None):
+    def filter_by(self, filter_type, filter_criterion, spells=None):
         if spells is None:
             spells = self.spells
-        spellnames = [spell for spell in spells if spells[spell]['level'] == level]
-        return {spell:spells[spell] for spell in spellnames}
-
-    def filter_by_school(self, school, spells=None):
-        if spells is None:
-            spells = self.spells
-        spellnames =  [spell for spell in spells if spells[spell]['school'] == school]
-        return {spell:spells[spell] for spell in spellnames}
+        spell_names = [s for s in spells if (filter_type in spells[s] and spells[s][filter_type] == filter_criterion)]
+        return {spell:spells[spell] for spell in spell_names}
 
     def identify(self, spell):
         if (spell is "" and not spell in self.spells):
